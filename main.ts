@@ -7,6 +7,12 @@ function makeHTML(screenName: string): string {
 <head>
   <meta charset="UTF-8">
   <title>Twitter timeline for @${screenName}</title>
+  <style>
+  body {
+    width: 40rem;
+    margin: 2rem auto;
+  }  
+  </style>
 </head>
 <body>
 <a class="twitter-timeline" href="https://twitter.com/${screenName}?ref_src=twsrc%5Etfw">
