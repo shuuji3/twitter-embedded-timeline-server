@@ -27,7 +27,7 @@ function makeHTML(screenName: string): string {
 const server = createServer((req, res) => {
   const screenName = req.url?.substring(1) || 'twitter'
   const html = makeHTML(screenName)
-  res.setHeader('Content-Type', 'text/html');
+  res.setHeader('Content-Type', 'text/html')
   res.end(html)
 })
 
