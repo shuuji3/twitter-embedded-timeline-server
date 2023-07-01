@@ -1,4 +1,7 @@
-import { createServer } from 'node:http'
+import Fastify from 'fastify'
+const fastify = Fastify({
+  logger: true,
+})
 
 function makeHTML(screenName: string): string {
   return `
@@ -24,13 +27,19 @@ function makeHTML(screenName: string): string {
 `
 }
 
-const server = createServer((req, res) => {
-  const screenName = req.url?.substring(1) || 'twitter'
+fastify.get('/timeline/:screenName', function (request, reply) {
+  const { screenName: screenName = 'twitter' } = request.params as {
+    screenName: string
+  }
   const html = makeHTML(screenName)
-  res.setHeader('Content-Type', 'text/html')
-  res.end(html)
+  reply.type('text/html').send(html)
 })
 
-const port = process.env.PORT || 8080
-console.log(`listening at port ${port} ...`)
-server.listen(port)
+const port = parseInt(process.env.PORT || '8080', 10)
+
+fastify.listen({ port }, (err, address) => {
+  if (err) {
+    fastify.log.error(err)
+    process.exit(1)
+  }
+})
