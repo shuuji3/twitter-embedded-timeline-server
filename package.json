@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@playwright/test": "^1.35.1",
+    "fastify": "^4.19.0",
     "ts-node": "^10.9.1",
     "underscore": "^1.13.6"
   }
