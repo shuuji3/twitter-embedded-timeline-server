@@ -11,6 +11,9 @@ dependencies:
   fastify:
     specifier: ^4.19.0
     version: 4.19.0
+  playwright:
+    specifier: ^1.35.1
+    version: 1.35.1
   ts-node:
     specifier: ^10.9.1
     version: 10.9.1(@types/node@20.3.3)(typescript@5.1.6)
@@ -376,6 +379,15 @@ packages:
     resolution: {integrity: sha512-pNXb6CQ7OqmGDRspEjlxE49w+4YtR6a3X6mT1hZXeJHWmsEz7SunmvZeiG/+y1yyMZdHnnn73WKYdtV1er0Xyg==}
     engines: {node: '>=16'}
     hasBin: true
+    dev: false
+
+  /playwright@1.35.1:
+    resolution: {integrity: sha512-NbwBeGJLu5m7VGM0+xtlmLAH9VUfWwYOhUi/lSEDyGg46r1CA9RWlvoc5yywxR9AzQb0mOCm7bWtOXV7/w43ZA==}
+    engines: {node: '>=16'}
+    hasBin: true
+    requiresBuild: true
+    dependencies:
+      playwright-core: 1.35.1
     dev: false
 
   /prettier@2.8.8:

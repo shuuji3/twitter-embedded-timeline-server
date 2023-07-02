@@ -2,23 +2,24 @@
   "name": "twitter-embedded-timeline-server",
   "version": "1.0.0",
   "description": "Twitter embedded timeline server",
+  "author": " TAKAHASHI Shuuji <shuuji3@gmail.com>",
+  "license": "GPL-3.0-or-later",
+  "keywords": [
+    "twitter"
+  ],
   "main": "main.js",
   "scripts": {
     "start": "ts-node main.ts"
   },
-  "keywords": [
-    "twitter"
-  ],
-  "author": " TAKAHASHI Shuuji <shuuji3@gmail.com>",
-  "license": "GPL-3.0-or-later",
+  "dependencies": {
+    "@playwright/test": "^1.35.1",
+    "fastify": "^4.19.0",
+    "playwright": "^1.35.1",
+    "ts-node": "^10.9.1"
+  },
   "devDependencies": {
     "@types/node": "^20.3.3",
     "prettier": "^2.8.8",
     "typescript": "^5.1.6"
-  },
-  "dependencies": {
-    "@playwright/test": "^1.35.1",
-    "fastify": "^4.19.0",
-    "ts-node": "^10.9.1"
   }
 }
