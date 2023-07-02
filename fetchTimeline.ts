@@ -5,6 +5,13 @@ type User = {
   screenName: string
 }
 
+type Tweet = {
+  user: User
+  text: string
+  time: string
+  link: string
+}
+
 export async function fetchTimeline(screenName: string) {
   const browser = await chromium.launch()
   const page = await browser.newPage()
@@ -15,7 +22,7 @@ export async function fetchTimeline(screenName: string) {
   const timeline = await page.frameLocator('iframe[title="Twitter Timeline"]')
   const tweetLocators = await timeline.getByRole('article').all()
 
-  const tweets = []
+  const tweets: Tweet[] = []
   for (const tweetLocator of tweetLocators) {
     const user: User = await tweetLocator
       .getByTestId('User-Name')
