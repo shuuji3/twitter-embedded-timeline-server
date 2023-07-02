@@ -10,7 +10,9 @@
   "type": "module",
   "main": "main.js",
   "scripts": {
-    "start": "ts-node --esm main.ts"
+    "build": "tsc -p .",
+    "start": "node dist/main.js",
+    "dev": "ts-node main.ts"
   },
   "dependencies": {
     "@playwright/test": "^1.35.1",
