@@ -6,11 +6,6 @@ type User = {
   screenName: string
 }
 
-function getNames(userNameText: string) {
-  const [_, name, screenName] = /(.+)@(.+)·/.exec(userNameText)
-  return { name, screenName }
-}
-
 test('construct timeline items', async ({ page }) => {
   const screenName = 'twitter'
 
@@ -20,20 +15,26 @@ test('construct timeline items', async ({ page }) => {
   const timeline = await page.frameLocator('iframe[title="Twitter Timeline"]')
   const users: User[] = await timeline
     .getByTestId('User-Name')
-    .evaluateAll((users) =>
+    .evaluateAll((users: HTMLElement[]) =>
       users.map((user) => {
-        const [, name, screenName] = /(.+)@(.+)·/.exec(user.textContent)
+        const match = /(.+)@(.+)·/.exec(user?.textContent || '')
+        if (match === null) {
+          return { name: '', screenName: '' }
+        }
+        const [, name, screenName] = match
         return { name, screenName }
       })
     )
   const texts = await timeline.getByTestId('tweetText').allInnerTexts()
   const times = await timeline
     .locator('time')
-    .evaluateAll((times) => times.map((time) => time.getAttribute('datetime')))
+    .evaluateAll((times: HTMLTimeElement[]) =>
+      times.map((time) => time?.getAttribute('datetime') ?? '')
+    )
   const links = await timeline
     .locator('time')
     .evaluateAll((times) =>
-      times.map((time) => time.parentElement.getAttribute('href'))
+      times.map((time) => time.parentElement?.getAttribute('href') ?? '')
     )
 
   for (const [{ name, screenName }, text, time, link] of zip(
