@@ -18,6 +18,7 @@
     "@playwright/test": "^1.35.1",
     "@types/memoizee": "^0.4.8",
     "fastify": "^4.19.0",
+    "feed": "^4.2.2",
     "memoizee": "^0.4.15",
     "playwright": "^1.35.1",
     "ts-node": "^10.9.1"
