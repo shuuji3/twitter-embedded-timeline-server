@@ -1,10 +1,3 @@
-// const { chromium } = require('playwright');
-//
-// (async () => {
-//   const browser = await chromium.launch({
-//     headless: false
-//   });
-
 import { test } from '@playwright/test'
 
 type User = {
