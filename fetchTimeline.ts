@@ -1,7 +1,7 @@
 import { chromium } from 'playwright'
 
 type User = {
-  userName: string
+  name: string
   screenName: string
 }
 
@@ -24,10 +24,10 @@ export async function fetchTimeline(screenName: string) {
       .evaluate((user: HTMLElement) => {
         const match = /(.+)@(.+)·/.exec(user?.textContent || '')
         if (match === null) {
-          return { userName: '', screenName: '' }
+          return { name: '', screenName: '' }
         }
-        const [, userName, screenName] = match
-        return { userName, screenName }
+        const [, name, screenName] = match
+        return { name, screenName }
       })
 
     let text: string
@@ -56,7 +56,7 @@ export async function fetchTimeline(screenName: string) {
       )
 
     tweets.push({
-      ...user,
+      user,
       text,
       time,
       link,
