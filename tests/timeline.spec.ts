@@ -1,3 +1,10 @@
+// const { chromium } = require('playwright');
+//
+// (async () => {
+//   const browser = await chromium.launch({
+//     headless: false
+//   });
+
 import { test } from '@playwright/test'
 
 type User = {
@@ -40,7 +47,9 @@ test('construct timeline items', async ({ page }) => {
       .evaluate((time: HTMLTimeElement) => time?.getAttribute('datetime') ?? '')
     const link = await tweetLocator
       .locator('time')
-      .evaluate((time) => time.parentElement?.getAttribute('href') ?? '')
+      .evaluate(
+        (time) => time.parentElement?.getAttribute('href')?.split('?')[0] ?? ''
+      )
 
     tweets.push({
       name: user.name,
