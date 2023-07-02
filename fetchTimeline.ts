@@ -1,4 +1,4 @@
-const { chromium } = require('playwright')
+import { chromium } from 'playwright'
 
 type User = {
   name: string
@@ -62,8 +62,6 @@ export async function fetchTimeline(screenName: string) {
   return tweets
 }
 
-(async ()=> {
-  const screenName = 'twitter';
-  const tweets = await fetchTimeline(screenName)
-  console.log(tweets)
-})()
+const screenName = 'twitter'
+const tweets = await fetchTimeline(screenName)
+console.log(tweets)

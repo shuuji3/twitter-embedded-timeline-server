@@ -7,9 +7,10 @@
   "keywords": [
     "twitter"
   ],
+  "type": "module",
   "main": "main.js",
   "scripts": {
-    "start": "ts-node main.ts"
+    "start": "ts-node --esm main.ts"
   },
   "dependencies": {
     "@playwright/test": "^1.35.1",
