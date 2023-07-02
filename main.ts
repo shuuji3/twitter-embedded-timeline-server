@@ -3,6 +3,9 @@ import Fastify from 'fastify'
 import { fetchTimeline } from './fetchTimeline.js'
 import { makeHTML } from './utils.js'
 
+const port = parseInt(process.env.PORT || '8080', 10)
+const hostname = `localhost:${port}`
+
 const fastify = Fastify({
   logger: true,
 })
@@ -19,11 +22,9 @@ fastify.get('/timeline/:screenName/json', async (request, reply) => {
   const { screenName: screenName = 'twitter' } = request.params as {
     screenName: string
   }
-  const tweets = await fetchTimeline(screenName)
+  const tweets = await fetchTimeline(screenName, hostname)
   reply.send({ tweets })
 })
-
-const port = parseInt(process.env.PORT || '8080', 10)
 
 fastify.listen({ port }, (err, address) => {
   if (err) {

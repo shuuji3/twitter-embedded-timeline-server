@@ -12,11 +12,11 @@ type Tweet = {
   link: string
 }
 
-export async function fetchTimeline(screenName: string) {
+export async function fetchTimeline(screenName: string, hostname: string) {
   const browser = await chromium.launch()
   const page = await browser.newPage()
 
-  await page.goto(`http://localhost:8080/timeline/${screenName}`)
+  await page.goto(`http://${hostname}/timeline/${screenName}`)
   await page.waitForSelector('iframe[title="Twitter Timeline"]')
 
   const timeline = await page.frameLocator('iframe[title="Twitter Timeline"]')
