@@ -1,18 +1,18 @@
 import { chromium } from 'playwright'
+import memoize from 'memoizee'
 
-type User = {
-  name: string
-  screenName: string
-}
+import { type Tweet, type User } from './types.js'
 
-type Tweet = {
-  user: User
-  text: string
-  time: string
-  link: string
-}
+const second = 1000
+const minute = 60 * second
+const maxAge = 15 * minute
 
-export async function fetchTimeline(screenName: string, hostname: string) {
+export const fetchTimeline = memoize(_fetchTimeline, {
+  maxAge,
+  preFetch: true,
+})
+
+async function _fetchTimeline(screenName: string, hostname: string) {
   const browser = await chromium.launch()
   const page = await browser.newPage()
 
