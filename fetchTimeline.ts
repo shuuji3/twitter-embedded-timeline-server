@@ -61,7 +61,3 @@ export async function fetchTimeline(screenName: string) {
 
   return tweets
 }
-
-const screenName = 'twitter'
-const tweets = await fetchTimeline(screenName)
-console.log(tweets)

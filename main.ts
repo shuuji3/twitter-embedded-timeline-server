@@ -1,4 +1,7 @@
 import Fastify from 'fastify'
+
+import { fetchTimeline } from './fetchTimeline.js'
+
 const fastify = Fastify({
   logger: true,
 })
@@ -27,12 +30,20 @@ function makeHTML(screenName: string): string {
 `
 }
 
-fastify.get('/timeline/:screenName', function (request, reply) {
+fastify.get('/timeline/:screenName', (request, reply) => {
   const { screenName: screenName = 'twitter' } = request.params as {
     screenName: string
   }
   const html = makeHTML(screenName)
   reply.type('text/html').send(html)
+})
+
+fastify.get('/timeline/:screenName/json', async (request, reply) => {
+  const { screenName: screenName = 'twitter' } = request.params as {
+    screenName: string
+  }
+  const tweets = await fetchTimeline(screenName)
+  reply.send({ tweets })
 })
 
 const port = parseInt(process.env.PORT || '8080', 10)
