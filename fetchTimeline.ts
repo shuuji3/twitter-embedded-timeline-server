@@ -19,6 +19,8 @@ export async function fetchTimeline(screenName: string) {
   for (const tweetLocator of tweetLocators) {
     const user: User = await tweetLocator
       .getByTestId('User-Name')
+      // TODO: include quite tweet
+      .first()
       .evaluate((user: HTMLElement) => {
         const match = /(.+)@(.+)·/.exec(user?.textContent || '')
         if (match === null) {
@@ -40,10 +42,14 @@ export async function fetchTimeline(screenName: string) {
 
     const time = await tweetLocator
       .locator('time')
+      // TODO: include quite tweet
+      .first()
       .evaluate((time: HTMLTimeElement) => time?.getAttribute('datetime') ?? '')
 
     const link = await tweetLocator
       .locator('time')
+      // TODO: include quite tweet
+      .first()
       .evaluate(
         (time: HTMLTimeElement) =>
           time.parentElement?.getAttribute('href')?.split('?')[0] ?? ''
