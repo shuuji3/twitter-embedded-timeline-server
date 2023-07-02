@@ -5,11 +5,9 @@ type User = {
   screenName: string
 }
 
-async function main() {
+export async function fetchTimeline(screenName: string) {
   const browser = await chromium.launch()
   const page = await browser.newPage()
-
-  const screenName = 'twitter'
 
   await page.goto(`http://localhost:8080/timeline/${screenName}`)
   await page.waitForSelector('iframe[title="Twitter Timeline"]')
@@ -58,9 +56,14 @@ async function main() {
       link,
     })
   }
-  console.log(tweets)
 
   await browser.close()
+
+  return tweets
 }
 
-(async ()=> await main())()
+(async ()=> {
+  const screenName = 'twitter';
+  const tweets = await fetchTimeline(screenName)
+  console.log(tweets)
+})()
