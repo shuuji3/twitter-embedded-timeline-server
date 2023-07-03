@@ -62,12 +62,7 @@ async function _fetchTimeline(screenName: string, hostname: string) {
           time.parentElement?.getAttribute('href')?.split('?')[0] ?? ''
       )
 
-    tweets.push({
-      user,
-      text,
-      time,
-      link,
-    })
+    tweets.push({ user, text, time, link })
   }
 
   await browser.close()
