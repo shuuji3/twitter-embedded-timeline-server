@@ -26,6 +26,15 @@ fastify.get('/timeline/:screenName/json', async (request, reply) => {
   reply.send({ tweets })
 })
 
+fastify.get('/timeline/:screenName/atom', async (request, reply) => {
+  const { screenName: screenName = 'twitter' } = request.params as {
+    screenName: string
+  }
+  const tweets = await fetchTimeline(screenName, hostname)
+  reply.header('content-type', 'application/atom+xml')
+  reply.send('TODO')
+})
+
 fastify.listen({ port, host: '0.0.0.0' }, (err, address) => {
   if (err) {
     fastify.log.error(err)
