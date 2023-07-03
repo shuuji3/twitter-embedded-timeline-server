@@ -1,4 +1,4 @@
-import { chromium } from 'playwright'
+import { chromium, FrameLocator } from 'playwright'
 import memoize from 'memoizee'
 
 import { type Tweet, type User } from './types.js'
@@ -19,9 +19,18 @@ async function _fetchTimeline(screenName: string, hostname: string) {
   await page.goto(`http://${hostname}/timeline/${screenName}`)
   await page.waitForSelector('iframe[title="Twitter Timeline"]')
 
-  const timeline = await page.frameLocator('iframe[title="Twitter Timeline"]')
-  const tweetLocators = await timeline.getByRole('article').all()
+  const timelineLocator = await page.frameLocator(
+    'iframe[title="Twitter Timeline"]'
+  )
+  const tweets = await getTweets(timelineLocator)
 
+  await browser.close()
+
+  return tweets
+}
+
+async function getTweets(timelineLocator: FrameLocator) {
+  const tweetLocators = await timelineLocator.getByRole('article').all()
   const tweets: Tweet[] = []
   for (const tweetLocator of tweetLocators) {
     const user: User = await tweetLocator
@@ -64,8 +73,5 @@ async function _fetchTimeline(screenName: string, hostname: string) {
 
     tweets.push({ user, text, time, link })
   }
-
-  await browser.close()
-
   return tweets
 }
