@@ -26,7 +26,7 @@ async function _fetchTimeline(screenName: string, hostname: string) {
   for (const tweetLocator of tweetLocators) {
     const user: User = await tweetLocator
       .getByTestId('User-Name')
-      // TODO: include quite tweet
+      // TODO: include quoted tweet
       .first()
       .evaluate((user: HTMLElement) => {
         const match = /(.+)@(.+)·/.exec(user?.textContent || '')
@@ -49,13 +49,13 @@ async function _fetchTimeline(screenName: string, hostname: string) {
 
     const time = await tweetLocator
       .locator('time')
-      // TODO: include quite tweet
+      // TODO: include quoted tweet
       .first()
       .evaluate((time: HTMLTimeElement) => time?.getAttribute('datetime') ?? '')
 
     const link = await tweetLocator
       .locator('time')
-      // TODO: include quite tweet
+      // TODO: include quoted tweet
       .first()
       .evaluate(
         (time: HTMLTimeElement) =>
