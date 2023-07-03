@@ -8,4 +8,5 @@ export type Tweet = {
   text: string
   time: string
   link: string
+  isRetweet: boolean
 }

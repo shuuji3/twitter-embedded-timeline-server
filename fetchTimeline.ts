@@ -1,4 +1,4 @@
-import { chromium, FrameLocator } from 'playwright'
+import { chromium, FrameLocator, Locator } from 'playwright'
 import memoize from 'memoizee'
 
 import { type Tweet, type User } from './types.js'
@@ -22,15 +22,15 @@ async function _fetchTimeline(screenName: string, hostname: string) {
   const timelineLocator = await page.frameLocator(
     'iframe[title="Twitter Timeline"]'
   )
-  const tweets = await getTweets(timelineLocator)
+  const tweetLocators = await timelineLocator.getByRole('article').all()
+  const tweets = await getTweets(tweetLocators)
 
   await browser.close()
 
   return tweets
 }
 
-async function getTweets(timelineLocator: FrameLocator) {
-  const tweetLocators = await timelineLocator.getByRole('article').all()
+async function getTweets(tweetLocators: Locator[]) {
   const tweets: Tweet[] = []
   for (const tweetLocator of tweetLocators) {
     const user: User = await tweetLocator
@@ -71,7 +71,22 @@ async function getTweets(timelineLocator: FrameLocator) {
           time.parentElement?.getAttribute('href')?.split('?')[0] ?? ''
       )
 
-    tweets.push({ user, text, time, link })
+    let isRetweet: boolean
+    try {
+      await tweetLocator.locator('a[id^="id"]').waitFor({ timeout: 100 })
+      isRetweet = true
+    } catch {
+      isRetweet = false
+    }
+    tweets.push({ user, text, time, link, isRetweet })
   }
   return tweets
 }
+
+// function getMetadata(tweets) {
+//   const userName = [...tweets].map(
+//     (t) =>
+//       t.querySelector('a[id^="id"] > span > span > span')?.textContent ??
+//       t.querySelector('[data-testid="User-Name"] a')?.textContent
+//   )[0]
+// }
