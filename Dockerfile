@@ -10,7 +10,6 @@ COPY . .
 RUN pnpm build
 
 FROM base
-RUN env
 ENV CI=true
 RUN corepack enable && corepack prepare pnpm@latest --activate
 WORKDIR /app
